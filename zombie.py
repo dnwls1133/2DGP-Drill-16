@@ -144,8 +144,8 @@ class Zombie:
             return BehaviorTree.SUCCESS
         else:
             center_x,center_y = 1280 // 2, 1024 // 2
-            self.tx = 2* center_x - common.boy.x
-            self.ty = 2* center_y - common.boy.y
+            self.tx = 2* self.x - common.boy.x +200
+            self.ty = 2* self.y - common.boy.y + 200
 
             self.tx = max(100, min(1280 - 100, self.tx))
             self.ty = max(100, min(1024 - 100, self.ty))
