@@ -110,6 +110,11 @@ class Zombie:
         return distance2 < (PIXEL_PER_METER * r) ** 2
 
         pass
+    def distance_more_than(self,x1,y1,x2,y2,r):
+        # 여기를 채우시오.
+        distance2 = (x1 -x2) ** 2 + (y1 - y2) **2
+        return distance2 > (PIXEL_PER_METER * r) ** 2
+
 
 
 
@@ -145,7 +150,7 @@ class Zombie:
         # 여기를 채우시오.
         self.state = 'Walk'
         self.move_little_to(self.tx, self.ty)
-        if not self.distance_less_than(common.boy.x, common.boy.y, self.x, self.y, 7):
+        if self.distance_more_than(common.boy.x, common.boy.y, self.x, self.y, 7):
             return BehaviorTree.SUCCESS
         else:
             return BehaviorTree.RUNNING
