@@ -135,11 +135,17 @@ class Zombie:
 
     def if_zombie_more_than_ball(self):
         # 여기를 채우시오.
-        pass
+        if self.ball_count >= common.boy.ball_count:
+            return BehaviorTree.SUCCESS
+        else:
+            self.tx, self.ty = common.boy.x * -1, common.boy.y * -1
+            return BehaviorTree.FAIL
 
-    def run_from_boy(self):
-        # 여기를 채우시오.
-        pass
+    # def run_from_boy(self):
+    #     # 여기를 채우시오.
+    #     self.state = 'Walk'
+    #     self.move_little_to(self.tx, self.ty)
+    #     pass
 
     def set_random_location(self):
         # 여기를 채우시오.
@@ -200,7 +206,7 @@ class Zombie:
 
         go_to_boy = Sequence('소년에게 가기',c2,a4)
 
-        go_or_run = Selector('소년에게 가기 또는 도망',go_to_boy,a6)
+        go_or_run = Selector('소년에게 가기 또는 도망',go_to_boy,a2)
 
         chase_or_run = Sequence('추적 아니면 도망',c1,go_or_run)
 
