@@ -143,7 +143,12 @@ class Zombie:
         if self.ball_count >= common.boy.ball_count:
             return BehaviorTree.SUCCESS
         else:
+            center_x,center_y = 1280 // 2, 1024 // 2
+            self.tx = 2* center_x - common.boy.x
+            self.ty = 2* center_y - common.boy.y
 
+            self.tx = max(100, min(1280 - 100, self.tx))
+            self.ty = max(100, min(1024 - 100, self.ty))
             return BehaviorTree.FAIL
 
     def run_from_boy(self):
@@ -217,11 +222,11 @@ class Zombie:
 
         go_to_boy = Sequence('소년에게 가기',c2,a4)
 
-        go_or_run = Selector('소년에게 가기 또는 도망',go_to_boy,a6)
+        go_or_run = Selector('소년에게 가기 또는 도망',go_to_boy,a2)
 
         chase_or_run = Sequence('추적 아니면 도망',c1,go_or_run)
 
-        charse_or_run_or_wander = Selector('추적 또는 도망 또는 방황',chase_or_run,wander)
+        root = charse_or_run_or_wander = Selector('추적 또는 도망 또는 방황',chase_or_run,wander)
 
 
         self.bt = BehaviorTree(root)
