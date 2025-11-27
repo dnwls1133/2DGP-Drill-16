@@ -137,7 +137,9 @@ class Zombie:
         # 여기를 채우시오.
         pass
 
-    def
+    def run_from_boy(self):
+        # 여기를 채우시오.
+        pass
 
     def set_random_location(self):
         # 여기를 채우시오.
@@ -191,6 +193,20 @@ class Zombie:
         patrol = Sequence('순찰',a5,a2)
 
         chase_or_patrol = Selector('추적 아니면 순찰',chase,patrol)
+
+
+        c2 = Condition('좀비가 공보다 많은가?',self.if_zombie_more_than_ball)
+        a6 = Action('소년에게서 도망가기',self.run_from_boy)
+
+        go_to_boy = Sequence('소년에게 가기',c2,a4)
+
+        go_or_run = Selector('소년에게 가기 또는 도망',go_to_boy,a6)
+
+        chase_or_run = Sequence('추적 아니면 도망',c1,go_or_run)
+
+        root = charse_or_run_or_wander = Selector('추적 또는 도망 또는 방황',chase_or_run,wander)
+
+
         self.bt = BehaviorTree(root)
 
 
