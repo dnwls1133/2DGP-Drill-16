@@ -202,7 +202,7 @@ class Zombie:
 
 
         c2 = Condition('좀비가 공보다 많은가?',self.if_zombie_more_than_ball)
-        a6 = Action('소년에게서 도망가기',self.run_from_boy)
+
 
         go_to_boy = Sequence('소년에게 가기',c2,a4)
 
