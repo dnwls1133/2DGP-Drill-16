@@ -120,7 +120,7 @@ class Zombie:
 
     def move_little_to(self, tx, ty):
         # 여기를 채우시오.
-        self.dir = math.atan2(tx - self.y, ty - self.x)
+        self.dir = math.atan2(ty - self.y, tx - self.x)
         distance = RUN_SPEED_PPS * game_framework.frame_time
         self.x += distance * math.cos(self.dir)
         self.y += distance * math.sin(self.dir)
@@ -143,13 +143,13 @@ class Zombie:
         if self.ball_count >= common.boy.ball_count:
             return BehaviorTree.SUCCESS
         else:
-            self.tx, self.ty = common.boy.x * -1, common.boy.y * -1
+
             return BehaviorTree.FAIL
 
     def run_from_boy(self):
         # 여기를 채우시오.
         self.state = 'Walk'
-        self.move_little_to(self.tx, self.ty)
+        #self.move_little_to(common.boy.x * -1, common.boy.y * -1)
         if self.distance_more_than(common.boy.x, common.boy.y, self.x, self.y, 7):
             return BehaviorTree.SUCCESS
         else:
@@ -158,6 +158,7 @@ class Zombie:
     def set_random_location(self):
         # 여기를 채우시오.
         self.tx, self.ty = random.randint(100, 1280-100), random.randint(100,1024 - 100)
+
         return BehaviorTree.SUCCESS
 
 
@@ -196,11 +197,11 @@ class Zombie:
         a2 = Action("목적지로 이동",self.move_to)
         root = move_to_target_sequence = Sequence('지정된 목적지로 이동', a1,a2)
         a3 = Action('Set random location',self.set_random_location)
-        wander = Sequence('Wander',a3,a2)
+        root = wander = Sequence('Wander',a3,a2)
 
         c1 = Condition('소년이 근처에 있는가?',self.if_boy_nearby,7)
         a4 = Action('소년한테 가기',self.move_to_boy)
-        root = chase = Sequence('소년 추적',c1,a4)
+        chase = Sequence('소년 추적',c1,a4)
         chase_or_wander = Selector('추적 아니면 방황',chase,wander)
 
         a5 = Action('순찰 위치 가져오기',self.get_patrol_location)
@@ -216,11 +217,11 @@ class Zombie:
 
         go_to_boy = Sequence('소년에게 가기',c2,a4)
 
-        go_or_run = Selector('소년에게 가기 또는 도망',go_to_boy,a2)
+        go_or_run = Selector('소년에게 가기 또는 도망',go_to_boy,a6)
 
         chase_or_run = Sequence('추적 아니면 도망',c1,go_or_run)
 
-        root = charse_or_run_or_wander = Selector('추적 또는 도망 또는 방황',chase_or_run,wander)
+        charse_or_run_or_wander = Selector('추적 또는 도망 또는 방황',chase_or_run,wander)
 
 
         self.bt = BehaviorTree(root)
